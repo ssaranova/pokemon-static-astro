@@ -1,0 +1,53 @@
+---
+import type { PokemonCardResponse } from "../../interfaces/pokemon-card.response";
+import type { Result } from "../../interfaces/pokemon-list.response";
+
+interface Props extends Result {
+    isBig?: boolean;
+}
+
+const { url, isBig = false } = Astro.props;
+
+const response = await fetch(url);
+const data: PokemonCardResponse = await response.json();
+---
+
+<a
+    href={`/pokemons/${data.name}`}
+    class:list={[
+        "rounded flex flex-col justify-center items-center p-2",
+        {
+            border: !isBig,
+        },
+    ]}
+>
+    <img
+        transition:name={`${data.name}-image`}
+        class:list={[
+            {
+                "w-26 h-26": isBig,
+                "w-22 h-22": !isBig,
+            },
+        ]}
+        src={data.sprites.other?.["official-artwork"].front_default}
+        alt={data.name}
+    />
+
+    <span
+        class:list={[
+            "capitalize",
+            {
+                "text-4xl text-blue-300": isBig,
+            },
+        ]}>#{data.id} {data.name}</span
+    >
+
+    {
+        isBig && (
+            <audio controls class="mt-5">
+                <source src={data.cries.latest} type="audio/ogg" />
+                Your browser does not support the audio element.
+            </audio>
+        )
+    }
+</a>

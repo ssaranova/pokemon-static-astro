@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import MainLayout from "@layouts/MainLayout.astro";
 import PokemonCard from "@components/pokemons/PokemonCard.astro";
 import type { PokemonListResponse } from "@interfaces/pokemon-list.response";
+import type { PokemonCardResponse } from "@interfaces/pokemon-card.response";
 
 export const getStaticPaths = (async () => {
     const response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=151");
@@ -16,15 +17,18 @@ export const getStaticPaths = (async () => {
 
 const { name } = Astro.params;
 const { url } = Astro.props;
+
+const response = await fetch(url);
+const data: PokemonCardResponse = await response.json();
 ---
 
-<MainLayout title={name}>
+<MainLayout title={`Pokémon - #${data.id} ${name}`} description=`Information about ${name}` image={data.sprites.other?.["official-artwork"].front_default}>
     <section class="mt-10 mx-10 flex flex-col justify-center items-center">
         <div>
             <a href="javascript:history.back()">Back</a>
             <h1 class="text-3xl capitalize">{name}</h1>
         </div>
-        <PokemonCard name={name} url={url} isBig />
+        <PokemonCard name={name} url={url} data={data} isBig />
     </section>
 </MainLayout>
 

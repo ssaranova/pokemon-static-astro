@@ -4,16 +4,20 @@ import type { Result } from "@interfaces/pokemon-list.response";
 
 interface Props extends Result {
     isBig?: boolean;
+    data?: PokemonCardResponse;
 }
 
-const { url, isBig = false } = Astro.props;
+const { url, isBig = false, data } = Astro.props;
 
-const response = await fetch(url);
-const data: PokemonCardResponse = await response.json();
+let pokemon = data;
+if (pokemon === undefined) {
+    const response = await fetch(url);
+    pokemon = await response.json() as PokemonCardResponse;
+}
 ---
 
 <a
-    href={`/pokemons/${data.name}`}
+    href={`/pokemons/${pokemon.name}`}
     class:list={[
         "rounded flex flex-col justify-center items-center p-2",
         {
@@ -22,15 +26,15 @@ const data: PokemonCardResponse = await response.json();
     ]}
 >
     <img
-        transition:name={`${data.name}-image`}
+        transition:name={`${pokemon.name}-image`}
         class:list={[
             {
                 "w-26 h-26": isBig,
                 "w-22 h-22": !isBig,
             },
         ]}
-        src={data.sprites.other?.["official-artwork"].front_default}
-        alt={data.name}
+        src={pokemon.sprites.other?.["official-artwork"].front_default}
+        alt={pokemon.name}
     />
 
     <span
@@ -39,13 +43,13 @@ const data: PokemonCardResponse = await response.json();
             {
                 "text-4xl text-blue-300": isBig,
             },
-        ]}>#{data.id} {data.name}</span
+        ]}>#{pokemon.id} {pokemon.name}</span
     >
 
     {
         isBig && (
             <audio controls class="mt-5">
-                <source src={data.cries.latest} type="audio/ogg" />
+                <source src={pokemon.cries.latest} type="audio/ogg" />
                 Your browser does not support the audio element.
             </audio>
         )

@@ -4,13 +4,13 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": [
-        "./src/components/*",
+        "./src/components/*"
       ],
       "@interfaces/*": [
-        "./src/interfaces/*",
+        "./src/interfaces/*"
       ],
       "@layouts/*": [
-        "./src/layouts/*",
+        "./src/layouts/*"
       ]
     }
   }

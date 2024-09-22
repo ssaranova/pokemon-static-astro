@@ -1,0 +1,38 @@
+---
+const links = [
+    { href: "/", text: "Pokémons list" },
+    { href: "/pokemons/1", text: "Paginated Pokémons" },
+    { href: "/favorites", text: "Favorite Pokémons" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="shadow bg-slate-800">
+    <div class="container flex items-center justify-center p-6 mx-auto text-gray-600 capitalize dark:text-gray-300">
+        {
+            links.map(({ href, text }) => (
+                <div>
+                    <a href={href}>
+                        {text}
+                    </a>
+                    {currentPath === href ? <div transition:name="navbar-active-item-line" class="border active" /> : <div class="border" />}
+                </div>
+            ))
+        }
+    </div>
+</nav>
+
+<style>
+    a {
+        @apply text-gray-800 dark:text-gray-200 mx-1.5 sm:mx-6;
+    }
+
+    .border {
+        @apply border-b-2 border-transparent mx-4;
+
+        &.active {
+            @apply border-blue-500;
+        }
+    }
+</style>

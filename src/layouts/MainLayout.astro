@@ -1,6 +1,8 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ViewTransitions } from "astro:transitions";
 import { siteInfo } from "src/constants/site-info";
+import { AstroSeo } from "@astrolib/seo";
+import type { ACTION_ERROR_CODES } from "astro:actions";
 
 interface Props {
     title?: string;
@@ -18,16 +20,16 @@ const { title = siteInfo.title, description = siteInfo.description, image } = As
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
 
-        <!-- SEO -->
-        <meta name="author" content="Saúl Saranova Sáez" />
-        <meta name="description" content={description} />
+        <AstroSeo
+            title={title}
+            description={description}
+            openGraph={{
+                title: title,
+                description: description,
+            }}
+        />
 
-        <!-- OG Metatags -->
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
         <meta property="og:image" content={image} />
-
-        <title>{title}</title>
 
         <ViewTransitions />
     </head>

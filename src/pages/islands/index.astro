@@ -1,0 +1,24 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+import Title from "@components/shared/Title.astro";
+import { Counter } from "@components/shared/Counter";
+---
+
+<MainLayout title="Favorite Pokémons">
+    <Title>Islands</Title>
+
+    <video controls="" autoplay="" transition:persist>
+        <source src="https://ia804502.us.archive.org/33/items/GoldenGa1939_3/GoldenGa1939_3_512kb.mp4" type="video/mp4" />
+    </video>
+
+    <div
+        style={{
+            height: "1000px",
+            backgroundColor: "red",
+            opacity: ".4",
+        }}
+    >
+    </div>
+
+    <Counter transition:persist="counter" transition:persist-props client:visible initValue={15} />
+</MainLayout>

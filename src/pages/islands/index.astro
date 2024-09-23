@@ -20,5 +20,7 @@ import { Counter } from "@components/shared/Counter";
     >
     </div>
 
-    <Counter transition:persist="counter" transition:persist-props client:visible initValue={15} />
+    <Counter transition:persist="counter" transition:persist-props client:visible initValue={15}>
+        <Title>Counter Island</Title>
+    </Counter>
 </MainLayout>

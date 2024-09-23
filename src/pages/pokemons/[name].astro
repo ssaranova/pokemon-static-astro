@@ -44,10 +44,7 @@ const data: PokemonCardResponse = await response.json();
 </MainLayout>
 
 <script>
-    interface FavoritePokemon {
-        name: string;
-        id: number;
-    }
+import { getFavoritePokemons, toggleFavoritePokemon } from "src/shared/utils";
 
     const onPageLoad = () => {
         const btnFavorite = document.querySelector(".favorite") as HTMLButtonElement;
@@ -60,20 +57,7 @@ const data: PokemonCardResponse = await response.json();
         const id = Number(btnFavorite.dataset.id);
         const name = btnFavorite.dataset.name ?? "";
 
-        const favoritePokemons: FavoritePokemon[] = JSON.parse(localStorage.getItem("favorite-pokemons") ?? "[]");
-
-        const toggleFavorite = () => {
-            const idx = favoritePokemons.findIndex((i) => i.id === id);
-            const isFavorite = idx > -1;
-
-            if (isFavorite) {
-                favoritePokemons.splice(idx, 1);
-            } else {
-                favoritePokemons.push({ name, id });
-            }
-
-            localStorage.setItem("favorite-pokemons", JSON.stringify(favoritePokemons));
-        };
+        const favoritePokemons = getFavoritePokemons();
 
         if (favoritePokemons.some((i) => i.id === id)) {
             heartOutline.classList.add("hidden");
@@ -84,7 +68,7 @@ const data: PokemonCardResponse = await response.json();
             heartOutline.classList.toggle("hidden");
             heartFull.classList.toggle("hidden");
 
-            toggleFavorite();
+            toggleFavoritePokemon({ name, id });
         });
     };
 
